@@ -7,7 +7,7 @@ package coinpurse;
  * @author
  */
 // TODO declare that Coin implements Comparable<Coin>
-public class Coin implements Comparable{
+public class Coin implements Comparable<Coin>{
 	public static final String DEFAULT_CURRENCY = "Baht";
 	/** Value of the coin. */
 	private final double value;
@@ -35,17 +35,14 @@ public class Coin implements Comparable{
 		this.currency = currency;
 	}
 
-	// TODO Write a getValue() method and javadoc.
 	public double getValue() {
 		return this.value;
 	}
 
-	// TODO Write a getCurrency() method and javadoc.
 	public String getCurrency() {
 		return this.currency;
 	}
 
-	// TODO Write an equals(Object) method.
 	public boolean equals(Object obj) {
 		if (obj == null)
 			return false;
@@ -58,18 +55,17 @@ public class Coin implements Comparable{
 			return false;
 	}
 
-	// TODO write a toString() method. See labsheet for what to return.
 	public String toString() {
-		return "";
+		return value + "-" + currency;
 	}
 
 	@Override
-	public int compareTo(Object arg0) {
-		// TODO Auto-generated method stub
+	public int compareTo(Coin o) {
+		if (value < o.getValue())
+			return -1;
+		if (value > o.getValue())
+			return 1;
 		return 0;
 	}
 
-	// TODO Write good Javadoc comments on all methods.
-
 }
-// TODO remove the TODO comments after you complete them! Including this one!

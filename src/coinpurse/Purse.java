@@ -44,6 +44,10 @@ public class Purse {
 		return money.size();
 	}
 
+	public List<Coin> getMoney() {
+		return this.money;
+	}
+
 	/**
 	 * Get the total value of all items in the purse.
 	 * 
@@ -104,34 +108,34 @@ public class Purse {
 	 *         withdraw requested amount.
 	 */
 	public Coin[] withdraw(double amount) {
-		Collections.sort(money);
-		Collections.reverse(money);
-		double tmpCoin;
-		List<Coin> tmpMoney = new ArrayList<Coin>(capacity);
-		for (int i = 0 ; i < count() ; i++) {
-			tmpMoney.add(money.get(i));
-		}
-		
-		Coin[] arr = new Coin[count()];
 		if (amount < 0) {
 			return null;
 		}
+		Collections.sort(money);
+		Collections.reverse(money);
+
+		double tmpCoin;
+		List<Coin> tmpMoney = new ArrayList<Coin>(money);
+		List<Coin> withdraw = new ArrayList<Coin>();
+		Coin[] arr = new Coin[count()];
 		if (totalBalance >= amount) {
-			for (int i = 0; i < tmpMoney.size() ; i++) {
-				if (tmpMoney.get(i).getValue() <= amount) {
-					tmpCoin = tmpMoney.get(i).getValue();
-					arr[i] = tmpMoney.get(i);
-					tmpMoney.remove(tmpMoney.get(i));
+			for (Coin coin : money) {
+				if (coin.getValue() <= amount) {
+					tmpCoin = coin.getValue();
+					withdraw.add(coin);
+					tmpMoney.remove(coin);
 					amount -= tmpCoin;
 				}
 			}
 			if (amount != 0) {
 				return null;
+			} else {
+				money = new ArrayList<Coin>(tmpMoney);
 			}
 		} else {
 			return null;
 		}
-		return arr;
+		return withdraw.toArray(arr);
 	}
 
 	/**

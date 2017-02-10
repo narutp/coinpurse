@@ -6,7 +6,8 @@ import java.util.Arrays;
  * A main class to create objects and connect objects together. The user
  * interface needs a reference to coin purse.
  * 
- * @author your name
+ * @author Narut Poovorakit
+ * @version 10.02.2017
  */
 public class Main {
 

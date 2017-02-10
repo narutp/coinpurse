@@ -1,13 +1,12 @@
 package coinpurse;
 
-//TODO fix this Javadoc. It should be written as a COMPLETE SENTENCE WITH PERIOD.
 /**
  * a coin with a monetary value and currency
  * 
- * @author
+ * @author Narut Poovorakit
+ * @version 10.02.2017
  */
-// TODO declare that Coin implements Comparable<Coin>
-public class Coin implements Comparable<Coin>{
+public class Coin implements Comparable<Coin> {
 	public static final String DEFAULT_CURRENCY = "Baht";
 	/** Value of the coin. */
 	private final double value;
@@ -18,6 +17,7 @@ public class Coin implements Comparable<Coin>{
 	 * A coin with given value using the default currency.
 	 * 
 	 * @param value
+	 *            is a value of the coin.
 	 */
 	public Coin(double value) {
 		this.value = value;
@@ -28,21 +28,36 @@ public class Coin implements Comparable<Coin>{
 	 * A coin with given value and currency.
 	 * 
 	 * @param value
+	 *            is a value of a coin.
 	 * @param currency
+	 *            is a currency of a coin.
 	 */
 	public Coin(double value, String currency) {
 		this.value = value;
 		this.currency = currency;
 	}
 
+	/**
+	 * Return value of a coin.
+	 * 
+	 * @return value of a coin.
+	 */
 	public double getValue() {
 		return this.value;
 	}
 
+	/**
+	 * Return currency of a coin.
+	 * 
+	 * @return currency of a coin.
+	 */
 	public String getCurrency() {
 		return this.currency;
 	}
 
+	/**
+	 * Check whether the object is equal to another or not based on value and currency.
+	 */
 	public boolean equals(Object obj) {
 		if (obj == null)
 			return false;
@@ -55,10 +70,9 @@ public class Coin implements Comparable<Coin>{
 			return false;
 	}
 
-	public String toString() {
-		return value + "-" + currency;
-	}
-
+	/**
+	 * Comparing a coin to another coin based on value.
+	 */
 	@Override
 	public int compareTo(Coin o) {
 		if (value < o.getValue())
@@ -68,4 +82,10 @@ public class Coin implements Comparable<Coin>{
 		return 0;
 	}
 
+	/**
+	 * Print the whole message of the coin, contain the value and currency.
+	 */
+	public String toString() {
+		return value + "-" + currency;
+	}
 }

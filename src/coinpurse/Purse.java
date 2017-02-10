@@ -4,18 +4,19 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-//TODO import ArrayList and Collections (so you can use Collections.sort())
-
 /**
  * A coin purse contains coins. You can insert coins, withdraw money, check the
  * balance, and check if the purse is full. When you withdraw money, the coin
  * purse decides which coins to remove.
  * 
- * @author your name
+ * @author Narut Poovorakit
+ * 
+ * @version 10.02.2017
  */
 public class Purse {
 	/** Collection of objects in the purse. */
 	private List<Coin> money;
+	/** An overall value of coin in the purse. */
 	private double totalBalance;
 	/**
 	 * Capacity is maximum number of coins the purse can hold. Capacity is set
@@ -42,10 +43,6 @@ public class Purse {
 	 */
 	public int count() {
 		return money.size();
-	}
-
-	public List<Coin> getMoney() {
-		return this.money;
 	}
 
 	/**
@@ -111,6 +108,7 @@ public class Purse {
 		if (amount < 0) {
 			return null;
 		}
+		/** Sort the list */
 		Collections.sort(money);
 		Collections.reverse(money);
 

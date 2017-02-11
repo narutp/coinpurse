@@ -25,8 +25,13 @@ public class CoinUtil {
 	 *         the requested currency.
 	 */
 	public static List<Coin> filterByCurrency(final List<Coin> coinlist, String currency) {
-
-		return null; // return a list of coin references copied from coinlist
+		List<Coin> newCoinList = new ArrayList<Coin>();
+		for (Coin coin : coinlist) {
+			if (coin.getCurrency().equals(currency)) {
+				newCoinList.add(coin);
+			}
+		}
+		return newCoinList; 
 	}
 
 	/**
@@ -44,7 +49,7 @@ public class CoinUtil {
 	 *            use it to sort the coins.
 	 */
 	public static void sortByCurrency(List<Coin> coins) {
-
+		Collections.sort(coins, CompareByCurrency);
 	}
 
 	/**
@@ -58,6 +63,26 @@ public class CoinUtil {
 	 * Hint: this is easy if you sort the coins by currency first. :-)
 	 */
 	public static void sumByCurrency(List<Coin> coins) {
+		sortByCurrency(coins);
+		double sum = 0;
+		String coinCurrency = coins.get(0).getCurrency(); // Get currency from the parameter
+		String[] result = new String[coins.size()];
+		int check = 0;
+		
+		for (Coin coin : coins) {
+			if (coin.getCurrency().equals(coinCurrency)) {
+				sum += coin.getValue();
+			}
+			else {
+				result[check] = sum + " " + coinCurrency + " ";
+				coinCurrency = coin.getCurrency();
+				sum = 0;
+				check++;
+			}
+		}
+		for (int i = 0 ; i < check ; i++) {
+			System.out.println(result[i]);
+		}
 
 	}
 
@@ -126,4 +151,14 @@ public class CoinUtil {
 		}
 		System.out.println(); // end the line
 	}
+
+	/**
+	 * Comparing the coin by a currency.
+	 */
+	static Comparator<Coin> CompareByCurrency = new Comparator<Coin>() {
+		@Override
+		public int compare(Coin o1, Coin o2) {
+			return o1.getCurrency().compareTo(o2.getCurrency());
+		}
+	};
 }

@@ -31,7 +31,7 @@ public class CoinUtil {
 				newCoinList.add(coin);
 			}
 		}
-		return newCoinList; 
+		return newCoinList;
 	}
 
 	/**
@@ -41,47 +41,45 @@ public class CoinUtil {
 	 * @param coins
 	 *            is a List of Coin objects we want to sort.
 	 *
-	 *            TODO: 1. Write a Comparator<Coin> (you can write the class at
-	 *            the end of this file. Declare it as "class CompareByCurrency"
-	 *            without the "public"). You can also write Comparator as an
-	 *            anonymous class, if you know how. The compare method should
-	 *            order coins by currency. 2. Create a comparator instance and
-	 *            use it to sort the coins.
 	 */
 	public static void sortByCurrency(List<Coin> coins) {
 		Collections.sort(coins, CompareByCurrency);
 	}
 
 	/**
-	 * Sum coins by currency and print the sum for each currency. Print one line
-	 * for the sum of each currency. For example: coins = { Coin(1,"Baht"),
-	 * Coin(20,"Ringgit"), Coin(10,"Baht"), Coin(0.5,"Ringgit") } then
-	 * sumByCurrency(coins) would print:
-	 * 
-	 * 11.00 Baht 20.50 Ringgit
-	 * 
-	 * Hint: this is easy if you sort the coins by currency first. :-)
+	 * Sum coins by currency and print the sum for each currency.
 	 */
 	public static void sumByCurrency(List<Coin> coins) {
 		sortByCurrency(coins);
 		double sum = 0;
+		int check = 0;
 		String coinCurrency = coins.get(0).getCurrency(); // Get currency from the parameter
 		String[] result = new String[coins.size()];
-		int check = 0;
+		
+		/** Check if there finish calculate the previous currency and continue the next currency */
+		boolean firstDiffCurr = true;
 		
 		for (Coin coin : coins) {
-			if (coin.getCurrency().equals(coinCurrency)) {
+			if (coin.getCurrency().equalsIgnoreCase(coinCurrency)) {
 				sum += coin.getValue();
+				firstDiffCurr = true;
 			}
 			else {
 				result[check] = sum + " " + coinCurrency + " ";
 				coinCurrency = coin.getCurrency();
 				sum = 0;
+				if (firstDiffCurr) {
+					sum += coin.getValue();
+					firstDiffCurr = false;
+				}
 				check++;
 			}
 		}
-		for (int i = 0 ; i < check ; i++) {
-			System.out.println(result[i]);
+		/** Sum the last currency that didn't sum yet */
+		result[check] = sum + " " + coinCurrency;
+		
+		for (int i = 0 ; i < check + 1 ; i++) {
+			System.out.print(result[i]);
 		}
 
 	}

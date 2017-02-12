@@ -16,7 +16,8 @@ public class ConsoleDialog {
 	public static final String CURRENCY = "Baht";
 	// use a single java.util.Scanner object for reading all input
 	private static Scanner console = new Scanner(System.in);
-
+	
+	/** Purse that contain coin and currency */
 	private Purse purse;
 
 	/**

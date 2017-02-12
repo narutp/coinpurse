@@ -51,6 +51,7 @@ public class Purse {
 	 * @return the total value of items in the purse.
 	 */
 	public double getBalance() {
+		totalBalance = 0;
 		for (int i = 0; i < money.size(); i++) {
 			totalBalance += money.get(i).getValue();
 		}
@@ -111,16 +112,16 @@ public class Purse {
 		/** Sort the list */
 		Collections.sort(money);
 		Collections.reverse(money);
-
 		double tmpCoin;
 		List<Coin> tmpMoney = new ArrayList<Coin>(money);
 		List<Coin> withdraw = new ArrayList<Coin>();
-		Coin[] arr = new Coin[count()];
+		Coin[] arr;
 		if (totalBalance >= amount) {
 			for (Coin coin : money) {
 				if (coin.getValue() <= amount) {
 					tmpCoin = coin.getValue();
 					withdraw.add(coin);
+					totalBalance -= tmpCoin;
 					tmpMoney.remove(coin);
 					amount -= tmpCoin;
 				}
@@ -133,6 +134,10 @@ public class Purse {
 		} else {
 			return null;
 		}
+		for (int i = 0 ; i < money.size() ; i++) {
+			System.out.println(money.get(i).getValue());
+		}
+		arr = new Coin[withdraw.size()];
 		return withdraw.toArray(arr);
 	}
 

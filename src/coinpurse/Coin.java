@@ -1,7 +1,8 @@
 package coinpurse;
 
 /**
- * a coin with a monetary value and currency
+ * a coin with a monetary value and currency. You can get coin, check that it is equal or not
+ * by checking a currency and the value. It can also comparing between a coin.
  * 
  * @author Narut Poovorakit
  * @version 10.02.2017

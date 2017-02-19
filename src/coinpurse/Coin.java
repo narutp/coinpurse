@@ -5,9 +5,9 @@ package coinpurse;
  * by checking a currency and the value. It can also comparing between a coin.
  * 
  * @author Narut Poovorakit
- * @version 10.02.2017
+ * @version 19.02.2017
  */
-public class Coin implements Comparable<Coin> {
+public class Coin implements Comparable<Valuable>, Valuable{
 	public static final String DEFAULT_CURRENCY = "Baht";
 	/** Value of the coin. */
 	private final double value;
@@ -43,6 +43,7 @@ public class Coin implements Comparable<Coin> {
 	 * 
 	 * @return value of a coin.
 	 */
+	@Override
 	public double getValue() {
 		return this.value;
 	}
@@ -52,6 +53,7 @@ public class Coin implements Comparable<Coin> {
 	 * 
 	 * @return currency of a coin.
 	 */
+	@Override
 	public String getCurrency() {
 		return this.currency;
 	}
@@ -72,21 +74,23 @@ public class Coin implements Comparable<Coin> {
 	}
 
 	/**
-	 * Comparing a coin to another coin based on value.
-	 */
-	@Override
-	public int compareTo(Coin o) {
-		if (value < o.getValue())
-			return -1;
-		if (value > o.getValue())
-			return 1;
-		return 0;
-	}
-
-	/**
 	 * Print the whole message of the coin, contain the value and currency.
 	 */
 	public String toString() {
 		return value + "-" + currency;
+	}
+
+	/**
+	 * Comparing a coin to another coin based on value.
+	 * @param valuable of purse.
+	 * @return a number of comparing.
+	 */
+	@Override
+	public int compareTo(Valuable v) {
+		if (value < v.getValue())
+			return -1;
+		if (value > v.getValue())
+			return 1;
+		return 0;
 	}
 }

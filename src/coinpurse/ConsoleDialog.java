@@ -9,7 +9,7 @@ import java.util.Scanner;
  * 
  * @author Narut Poovorakit
  * 
- * @version 10.02.2017
+ * @version 19.02.2017
  */
 public class ConsoleDialog {
 	// default currency for this dialog
@@ -57,20 +57,28 @@ public class ConsoleDialog {
 	}
 
 	/**
-	 * Ask the user how many coins to deposit into purse, then deposit them.
+	 * Ask the user how many valuable to deposit into purse, then deposit them.
 	 * Show result of success or failure.
 	 */
 	public void depositDialog() {
-		System.out.print("Enter value of coin(s) to deposit on one line [eg: 5 5 1]: ");
+		System.out.print("Enter value of valuable(s) to deposit on one line [eg: 5 5 1]: ");
 		String inline = console.nextLine();
 		// parse input line into numbers
 		Scanner scanline = new Scanner(inline);
 		while (scanline.hasNextDouble()) {
 			double value = scanline.nextDouble();
-			Coin coin = new Coin(value);
-			System.out.printf("Deposit %s... ", coin.toString());
-			boolean ok = purse.insert(coin);
-			System.out.println((ok ? "ok" : "FAILED"));
+			if (value < 20) {
+				Coin coin = new Coin(value);
+				System.out.printf("Deposit %s... ", coin.toString());
+				boolean okCoin = purse.insert(coin);
+				System.out.println((okCoin ? "ok" : "FAILED"));
+			}
+			else {
+				BankNote bn = new BankNote(value);
+				System.out.printf("Deposit %s... ", bn.toString());
+				boolean okBank = purse.insert(bn);
+				System.out.println((okBank ? "ok" : "FAILED"));
+			}
 		}
 		if (scanline.hasNext())
 			System.out.println("Invalid input: " + scanline.next());
@@ -78,19 +86,19 @@ public class ConsoleDialog {
 
 	/**
 	 * Ask how much money (Baht) to withdraw and then do it. After withdraw,
-	 * show the values of the coins we withdrew.
+	 * show the values of the valuable we withdrew.
 	 */
 	public void withdrawDialog() {
 		System.out.print("How much to withdraw? ");
 		if (console.hasNextDouble()) {
 			double amount = console.nextDouble();
-			Coin[] coins = purse.withdraw(amount);
-			if (coins == null)
+			Valuable[] vb = purse.withdraw(amount);
+			if (vb == null)
 				System.out.printf("Sorry, couldn't withdraw %g %s\n", amount, CURRENCY);
 			else {
 				System.out.print("You withdrew:");
-				for (int k = 0; k < coins.length; k++) {
-					System.out.print(" " + coins[k].toString());
+				for (int k = 0; k < vb.length; k++) {
+					System.out.print(" " + vb[k].toString());
 				}
 				System.out.println();
 			}

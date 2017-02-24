@@ -89,6 +89,7 @@ public class ConsoleDialog {
 					System.out.println((okValue ? "ok" : "FAILED"));
 				} catch (IllegalArgumentException ex) {
 					System.out.println("Sorry, " + value + " is not a valid amount.");
+					continue;
 				}
 		}
 		if (scanline.hasNext())

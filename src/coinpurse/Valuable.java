@@ -8,7 +8,7 @@ package coinpurse;
  *
  * @param <T>
  */
-public interface Valuable<T> {
+public interface Valuable extends Comparable<Valuable>{
 	
 	public double getValue();
 	public String getCurrency();

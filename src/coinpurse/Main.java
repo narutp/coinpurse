@@ -19,6 +19,24 @@ public class Main {
 	 *            not used
 	 */
 	public static void main(String[] args) {
+		//Thai
+//		System.out.println("THAI MONEY");
+//		MoneyFactory factory = MoneyFactory.getInstance();
+//		Valuable m = factory.createMoney(5);
+//		System.out.println(m.toString());
+//		Valuable m2 = factory.createMoney("1000.0");
+//		System.out.println(m2.toString());
+//		System.out.println("************");
+		
+//		//Malay
+//		System.out.println("MALAY MONEY");
+//		MoneyFactory malFactory = MoneyFactory.getInstance();
+//		Valuable m3 = malFactory.createMoney(5);
+//		System.out.println(m3.toString());
+//		Valuable m4 = malFactory.createMoney(0.05);
+//		System.out.println(m4.toString());
+//		Valuable m5 = malFactory.createMoney("1000.0");
+		
 		Purse purse = new Purse(CAPACITY);
 		ConsoleDialog cd = new ConsoleDialog(purse);
 		cd.run();

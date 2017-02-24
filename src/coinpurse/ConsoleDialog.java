@@ -13,10 +13,10 @@ import java.util.Scanner;
  */
 public class ConsoleDialog {
 	// default currency for this dialog
-	public static final String CURRENCY = "Baht";
+	public String currency = "Baht";
 	// use a single java.util.Scanner object for reading all input
 	private static Scanner console = new Scanner(System.in);
-	
+	MoneyFactory factory;
 	/** Purse that contain coin and currency */
 	private Purse purse;
 
@@ -32,11 +32,26 @@ public class ConsoleDialog {
 
 	/** run the user interface */
 	public void run() {
+		String moneyChoice = "";
 		String choice = "";
+		System.out.println("Please choose the money type");
+		System.out.println("enter t (thai), m (malay)");
+		moneyChoice = console.nextLine().trim().toLowerCase();
+		
+		if (moneyChoice.equals("t")) {
+			MoneyFactory.setMoneyFactory("thai");
+			currency = "Baht";
+		}
+		else {
+			MoneyFactory.setMoneyFactory("malay");
+			currency = "Ringgit";
+		}
+		factory = MoneyFactory.getInstance();
 		while (true) {
-			System.out.printf("Purse contains %.2f %s\n", purse.getBalance(), CURRENCY);
+			System.out.printf("Purse contains %.2f %s\n", purse.getBalance(), currency);
 			if (purse.isFull())
 				System.out.println("Purse is FULL.");
+			
 			// print a list of choices
 			System.out.print("\nPlease enter d (deposit), w (withdraw), ? (inquiry), or q (quit): ");
 			choice = console.nextLine().trim().toLowerCase();
@@ -53,7 +68,7 @@ public class ConsoleDialog {
 				System.out.println("\"" + choice + "\" is not a valid choice.");
 		}
 		// confirm that we are quitting
-		System.out.println("Goodbye. The purse still has " + purse.getBalance() + " " + CURRENCY);
+		System.out.println("Goodbye. The purse still has " + purse.getBalance() + " " + currency);
 	}
 
 	/**
@@ -67,23 +82,18 @@ public class ConsoleDialog {
 		Scanner scanline = new Scanner(inline);
 		while (scanline.hasNextDouble()) {
 			double value = scanline.nextDouble();
-			if (value < 20) {
-				Coin coin = new Coin(value);
-				System.out.printf("Deposit %s... ", coin.toString());
-				boolean okCoin = purse.insert(coin);
-				System.out.println((okCoin ? "ok" : "FAILED"));
-			}
-			else {
-				BankNote bn = new BankNote(value);
-				System.out.printf("Deposit %s... ", bn.toString());
-				boolean okBank = purse.insert(bn);
-				System.out.println((okBank ? "ok" : "FAILED"));
-			}
+				try {
+					Valuable v = factory.createMoney(value);
+					System.out.printf("Deposit %s... ", v.toString());
+					boolean okValue = purse.insert(v);
+					System.out.println((okValue ? "ok" : "FAILED"));
+				} catch (IllegalArgumentException ex) {
+					System.out.println("Sorry, " + value + " is not a valid amount.");
+				}
 		}
 		if (scanline.hasNext())
 			System.out.println("Invalid input: " + scanline.next());
 	}
-
 	/**
 	 * Ask how much money (Baht) to withdraw and then do it. After withdraw,
 	 * show the values of the valuable we withdrew.
@@ -94,7 +104,7 @@ public class ConsoleDialog {
 			double amount = console.nextDouble();
 			Valuable[] vb = purse.withdraw(amount);
 			if (vb == null)
-				System.out.printf("Sorry, couldn't withdraw %g %s\n", amount, CURRENCY);
+				System.out.printf("Sorry, couldn't withdraw %g %s\n", amount, currency);
 			else {
 				System.out.print("You withdrew:");
 				for (int k = 0; k < vb.length; k++) {

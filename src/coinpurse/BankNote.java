@@ -20,6 +20,8 @@ public class BankNote extends AbstractValuable{
 	 */
 	public BankNote(double value) {
 		super(value);
+		this.serialNumber = this.nextSerialNumber + 1;
+		this.nextSerialNumber = this.serialNumber;
 	}
 
 	/**
@@ -32,13 +34,15 @@ public class BankNote extends AbstractValuable{
 	 */
 	public BankNote(double value, String currency) {
 		super(value, currency);
+		this.serialNumber = this.nextSerialNumber + 1;
+		this.nextSerialNumber = this.serialNumber;
 	}
 
 	/**
 	 * Print the whole message of the coin, contain the value and currency.
 	 */
 	public String toString() {
-		return value + "-" + currency + "note [" + serialNumber + "]";
+		return value + "-" + currency + " note [" + serialNumber + "]";
 	}
 
 }

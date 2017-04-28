@@ -1,5 +1,10 @@
 package coinpurse;
 
+/**
+ * 
+ * @author Narut Poovorakit
+ *
+ */
 public class ThaiMoneyFactory extends MoneyFactory{
 
 	@Override

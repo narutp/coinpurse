@@ -148,6 +148,25 @@ public class PurseTest {
 		assertNull( purse.withdraw(30) );
 	}
 	
+	@Test
+	public void testRecursiveWithdraw() {
+		Purse purse = new Purse(10);
+		purse.insert(new Coin(2));
+		purse.insert(new Coin(10));
+		purse.insert(new Coin(5));
+		purse.withdraw(7);
+		assertEquals(10, purse.getBalance(), TOL);
+		Purse purse2 = new Purse(7);
+		purse2.insert(new Coin(5));
+		purse2.insert(new Coin(10));
+		purse2.insert(new Coin(1));
+		purse2.insert(new Coin(5));
+		purse2.insert(new Coin(2));
+		purse2.insert(new Coin(10));
+		purse2.withdraw(13);
+		assertEquals(20, purse2.getBalance(), TOL);
+	}
+	
 	/**
 	 * Sum the value of some Valuables.
 	 * @param Valuables array of Valuables

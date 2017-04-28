@@ -1,32 +1,35 @@
 package coinpurse;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Observable;
+import java.util.concurrent.RecursiveAction;
 
-import strategy.WithdrawStrategy;
-
+import coinpurse.strategy.GreedyWithdraw;
+import coinpurse.strategy.RecursiveWithdraw;
+import coinpurse.strategy.WithdrawStrategy;
 
 /**
  * A purse contains valuable. You can insert valuable, withdraw money, check the
- * balance, and check if the purse is full. When you withdraw money, the
- * purse decides which valuable to remove.
+ * balance, and check if the purse is full. When you withdraw money, the purse
+ * decides which valuable to remove.
  * 
  * @author Narut Poovorakit
  * 
  * @version 19.02.2017
  */
-public class Purse extends Observable{
+public class Purse extends Observable {
 	/** Collection of objects in the purse. */
 	private List<Valuable> money;
 	/** An overall value of valuable in the purse. */
 	private double totalBalance;
 	private WithdrawStrategy strategy;
 	/**
-	 * Capacity is maximum number of valuable the purse can hold. Capacity is set
-	 * when the purse is created and cannot be changed.
+	 * Capacity is maximum number of valuable the purse can hold. Capacity is
+	 * set when the purse is created and cannot be changed.
 	 */
 	private final int capacity;
 	private String currency = "Baht";
@@ -43,8 +46,8 @@ public class Purse extends Observable{
 	}
 
 	/**
-	 * Count and return the number of valuable in the purse. This is the number of
-	 * valuable, not their value.
+	 * Count and return the number of valuable in the purse. This is the number
+	 * of valuable, not their value.
 	 * 
 	 * @return the number of coins in the purse
 	 */
@@ -64,11 +67,11 @@ public class Purse extends Observable{
 		}
 		return totalBalance;
 	}
-	
+
 	public String getCurrency() {
 		return currency;
 	}
-	
+
 	public void setCurrency(String newCurrency) {
 		this.currency = newCurrency;
 	}
@@ -95,8 +98,9 @@ public class Purse extends Observable{
 	}
 
 	/**
-	 * Insert a valuable into the purse. The valuable is only inserted if the purse has
-	 * space for it and the valuable has positive value. No worthless valuable!
+	 * Insert a valuable into the purse. The valuable is only inserted if the
+	 * purse has space for it and the valuable has positive value. No worthless
+	 * valuable!
 	 * 
 	 * @param valuable
 	 *            is a valuable object to insert into purse
@@ -126,37 +130,21 @@ public class Purse extends Observable{
 			return null;
 		}
 		/** Sort the list */
-		Collections.sort( money, CompareByType);
+		Collections.sort(money, CompareByValue);
 		Collections.reverse(money);
-		double tmpCoin;
-		List<Valuable> tmpMoney = new ArrayList<Valuable>(money);
-		List<Valuable> withdraw = new ArrayList<Valuable>();
-		Valuable[] arr;
-		if (totalBalance >= amount) {
-			for (Valuable v : money) {
-				if (v.getValue() <= amount) {
-					tmpCoin = v.getValue();
-					withdraw.add(v);
-					totalBalance -= tmpCoin;
-					tmpMoney.remove(v);
-					amount -= tmpCoin;
-				}
-			}
-			if (amount != 0) {
-				return null;
-			} else {
-				money = new ArrayList<Valuable>(tmpMoney);
-			}
-		} else {
+		
+		List<Valuable> list = strategy.withdraw(amount, money);
+		if (list == null) {
 			return null;
 		}
-		for (int i = 0 ; i < money.size() ; i++) {
-			System.out.println(money.get(i).getValue());
+		for (Valuable v : list) {
+			money.remove(v);
 		}
-		arr = new Valuable[withdraw.size()];
+		
+		Valuable[] v = new Valuable[0];
 		setChanged();
 		notifyObservers("Withdrew" + amount);
-		return withdraw.toArray(arr);
+		return list.toArray(v);
 	}
 
 	/**
@@ -166,14 +154,18 @@ public class Purse extends Observable{
 	public String toString() {
 		return count() + " coins with value " + totalBalance;
 	}
-	
+
+	public void setWithdrawStrategy(WithdrawStrategy strategy) {
+		this.strategy = strategy;
+	}
+
 	/**
 	 * Comparing the valuable.
 	 */
-	static Comparator<Valuable> CompareByType = new Comparator<Valuable>() {
+	static Comparator<Valuable> CompareByValue = new Comparator<Valuable>() {
 		@Override
 		public int compare(Valuable v1, Valuable v2) {
-			return v1.getCurrency().compareTo(v2.getCurrency());
+			return v1.compareTo(v2);
 		}
 	};
 }

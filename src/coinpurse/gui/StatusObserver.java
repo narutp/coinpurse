@@ -1,6 +1,7 @@
-package coinpurse;
+package coinpurse.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Font;
 import java.util.Observable;
 import java.util.Observer;
@@ -10,6 +11,13 @@ import javax.swing.JProgressBar;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
+import coinpurse.Purse;
+
+/**
+ * 
+ * @author Narut Poovorakit
+ *
+ */
 public class StatusObserver extends JFrame implements Observer {
 
 	private JTextArea textArea;
@@ -37,6 +45,8 @@ public class StatusObserver extends JFrame implements Observer {
 		progressBar = new JProgressBar();
 		textArea.setText("EMPTY");
 		textArea.setFont(new Font(Font.DIALOG, Font.PLAIN, FONT_SIZE));
+		textArea.setBackground(Color.BLACK);
+		textArea.setForeground(Color.WHITE);
 		
 		this.add(textArea, BorderLayout.NORTH);
 		this.add(progressBar, BorderLayout.SOUTH);

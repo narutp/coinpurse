@@ -1,5 +1,9 @@
 package coinpurse;
 
+/**
+ * @author Narut Poovorakit
+ *
+ */
 public class AbstractValuable implements Valuable {
 
 	public static final String DEFAULT_CURRENCY = "Baht";
@@ -32,16 +36,25 @@ public class AbstractValuable implements Valuable {
 			return false;
 	}
 
+	/**
+	 * Get value of the valuable.
+	 */
 	@Override
 	public double getValue() {
 		return this.value;
 	}
 
+	/**
+	 * Get currency of the valuable.
+	 */
 	@Override
 	public String getCurrency() {
 		return this.currency;
 	}
 
+	/**
+	 * Compare valuable by their value.
+	 */
 	@Override
 	public int compareTo(Valuable v) {
 		if (value < v.getValue())

@@ -3,6 +3,10 @@ package coinpurse;
 import java.util.Arrays;
 import java.util.Observer;
 
+import coinpurse.gui.PurseObserver;
+import coinpurse.gui.StatusObserver;
+import coinpurse.strategy.RecursiveWithdraw;
+
 /**
  * A main class to create objects and connect objects together. The user
  * interface needs a reference to coin purse.
@@ -39,6 +43,7 @@ public class Main {
 //		Valuable m5 = malFactory.createMoney("1000.0");
 		
 		Purse purse = new Purse(CAPACITY);
+		purse.setWithdrawStrategy(new RecursiveWithdraw());
 		PurseObserver observer = new PurseObserver();
 		StatusObserver statusObserver = new StatusObserver();
 		purse.addObserver(observer);

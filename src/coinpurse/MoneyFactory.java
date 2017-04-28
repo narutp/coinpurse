@@ -1,5 +1,12 @@
 package coinpurse;
 
+/**
+ * 
+ * @author Narut Poovorakit
+ * 
+ * @version 28.04.2017
+ *
+ */
 public abstract class MoneyFactory {
 
 	private static MoneyFactory factory ;

@@ -40,10 +40,12 @@ public class ConsoleDialog {
 		
 		if (moneyChoice.equals("t")) {
 			MoneyFactory.setMoneyFactory("thai");
+			purse.setCurrency("Baht");
 			currency = "Baht";
 		}
 		else {
 			MoneyFactory.setMoneyFactory("malay");
+			purse.setCurrency("Ringgit");
 			currency = "Ringgit";
 		}
 		factory = MoneyFactory.getInstance();

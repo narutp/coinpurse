@@ -1,6 +1,7 @@
 package coinpurse;
 
 import java.util.Arrays;
+import java.util.Observer;
 
 /**
  * A main class to create objects and connect objects together. The user
@@ -38,7 +39,13 @@ public class Main {
 //		Valuable m5 = malFactory.createMoney("1000.0");
 		
 		Purse purse = new Purse(CAPACITY);
+		PurseObserver observer = new PurseObserver();
+		StatusObserver statusObserver = new StatusObserver();
+		purse.addObserver(observer);
+		purse.addObserver(statusObserver);
 		ConsoleDialog cd = new ConsoleDialog(purse);
+		observer.run();
+		statusObserver.run();
 		cd.run();
 	}
 }

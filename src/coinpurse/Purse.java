@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Observable;
+
+import strategy.WithdrawStrategy;
+
 
 /**
  * A purse contains valuable. You can insert valuable, withdraw money, check the
@@ -14,16 +18,18 @@ import java.util.List;
  * 
  * @version 19.02.2017
  */
-public class Purse {
+public class Purse extends Observable{
 	/** Collection of objects in the purse. */
 	private List<Valuable> money;
 	/** An overall value of valuable in the purse. */
 	private double totalBalance;
+	private WithdrawStrategy strategy;
 	/**
 	 * Capacity is maximum number of valuable the purse can hold. Capacity is set
 	 * when the purse is created and cannot be changed.
 	 */
 	private final int capacity;
+	private String currency = "Baht";
 
 	/**
 	 * Create a purse with a specified capacity.
@@ -57,6 +63,14 @@ public class Purse {
 			totalBalance += money.get(i).getValue();
 		}
 		return totalBalance;
+	}
+	
+	public String getCurrency() {
+		return currency;
+	}
+	
+	public void setCurrency(String newCurrency) {
+		this.currency = newCurrency;
 	}
 
 	/**
@@ -92,6 +106,8 @@ public class Purse {
 		if (isFull() || v.getValue() <= 0)
 			return false;
 		money.add(v);
+		setChanged();
+		notifyObservers("Deposit" + v.toString());
 		return true;
 	}
 
@@ -138,6 +154,8 @@ public class Purse {
 			System.out.println(money.get(i).getValue());
 		}
 		arr = new Valuable[withdraw.size()];
+		setChanged();
+		notifyObservers("Withdrew" + amount);
 		return withdraw.toArray(arr);
 	}
 

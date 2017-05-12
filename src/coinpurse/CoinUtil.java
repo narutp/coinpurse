@@ -31,10 +31,8 @@ public class CoinUtil {
 		if( currency == null ) {
 			throw new IllegalArgumentException();
 		}
-		List<E> newValuableList = new ArrayList<>();
-		Predicate<E> filter = (s) -> s.equals(currency);
+		Predicate<E> filter = (s) -> s.getCurrency().equals(currency);
 		List<E> result = valuablelist.stream().filter(filter).collect(Collectors.toList());
-		
 //		for (E valuable : valuablelist) {
 //			if (currency.equals(valuable.getCurrency())) {
 //				newValuableList.add(valuable);

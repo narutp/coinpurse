@@ -1,6 +1,7 @@
 package coinpurse;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Observer;
 
 import coinpurse.gui.PurseObserver;
@@ -41,7 +42,11 @@ public class Main {
 //		Valuable m4 = malFactory.createMoney(0.05);
 //		System.out.println(m4.toString());
 //		Valuable m5 = malFactory.createMoney("1000.0");
+		Coin max = CoinUtil.max(new Coin(5), new Coin(10));
+		System.out.println(max);
 		
+		List<Coin> coins = Arrays.asList(new Coin(5, "Baht"), new Coin(100, "Kip"));
+		CoinUtil.sortByCurrency(coins);
 		Purse purse = new Purse(CAPACITY);
 		purse.setWithdrawStrategy(new RecursiveWithdraw());
 		PurseObserver observer = new PurseObserver();

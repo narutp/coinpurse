@@ -6,7 +6,6 @@ package coinpurse;
  *
  */
 public class ThaiMoneyFactory extends MoneyFactory{
-
 	@Override
 	Valuable createMoney(double value) {
 		if (value == 0.25 || value == 0.5)

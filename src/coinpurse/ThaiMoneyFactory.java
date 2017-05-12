@@ -6,6 +6,8 @@ package coinpurse;
  *
  */
 public class ThaiMoneyFactory extends MoneyFactory{
+	private static long nextSerialNumber = 1000000;
+	
 	@Override
 	Valuable createMoney(double value) {
 		if (value == 0.25 || value == 0.5)
@@ -13,7 +15,7 @@ public class ThaiMoneyFactory extends MoneyFactory{
 		else if (value == 1 || value == 2 || value == 5 || value == 10)
 			return new Coin(value, "Baht coin");
 		else if (value == 20 || value == 50 || value == 100 || value == 500 || value == 1000)
-			return new BankNote(value, "Baht");
+			return new BankNote(value, "Baht", nextSerialNumber++);
 		else
 			throw new IllegalArgumentException();
 	}
